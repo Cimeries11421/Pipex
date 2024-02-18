@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS= -I libft/src # -I : include 
 CC = cc
 SRC = \
-	  test.c
+	  path.c pipex_utils.c link_cmd.c
 OBJ = $(SRC:.c=.o)
 LIBFT= libft/libft.a
 
@@ -22,7 +22,7 @@ clean :
 	rm -rf $(OBJ)
 
 sanitize:
-	make CFLAGS = "-Wall -Wextra -Werror -g3 -fsanitize=address"
+	make CFLAGS="-Wall -Wextra -Werror -g3 -fsanitize=address"
 
 FORCE : 
  

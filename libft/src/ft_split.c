@@ -89,3 +89,21 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	return (fill_tab(s, c, tab, len));
 }
+
+/*void	main(void)
+{
+	#include <stdio.h>
+	char	**tab;
+	int	i;
+
+	tab = ft_split("usr/ebriere/bin:ebriere/usr/bin", ':');
+	i = 0;
+	while (tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
+}
+*/
+
+
