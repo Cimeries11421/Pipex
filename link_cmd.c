@@ -12,15 +12,15 @@
 	}
 }
 */
-int	main(int ac, char **av, char **env)
+/*int	main(int ac, char **av, char **env)
 {
 	t_pipex	pipex;
 
-/*	if (ac != 5) //perror ?
-		return (-1);*/
+	if (ac != 5) //perror ?
+		return (-1);
 	pipex.n_arg = ac;
 	pipex.arg = av;
 	find_path(&pipex, env);
 	check_path(&pipex, env);
 	return (0);
-}
+}*/

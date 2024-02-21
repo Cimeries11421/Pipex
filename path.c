@@ -3,7 +3,7 @@
 void	find_path(t_pipex *pipex, char **env)
 {
 	size_t	i;
-	int	find;
+	int		find;
 
 	find = 0;
 	i = 1;
@@ -31,7 +31,7 @@ void	find_path(t_pipex *pipex, char **env)
 	}
 }
 
-void	check_path(t_pipex *pipex, char **env)
+int	check_path(t_pipex *pipex, char **env)
 {
 	size_t	i;
 	(void)env;
@@ -41,13 +41,12 @@ void	check_path(t_pipex *pipex, char **env)
 	{
 		if(access(pipex->path[i], X_OK) == 0)
 		{
-			printf("\nline --> %s\n", pipex->path[i]);
-		//	pipex->c_path = pipex->path[i];
-			execve(pipex->path[i], pipex->arg, env);
-			return;
+			//printf("\nline --> %s\n", pipex->path[i]);
+			return (i);
 		}
 		i++;
 	}
+	return (-1);
 }
 
 

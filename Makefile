@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS= -I libft/src # -I : include 
 CC = cc
 SRC = \
-	  path.c pipex_utils.c link_cmd.c
+	  path.c pipex_utils.c link_cmd.c main.c 
 OBJ = $(SRC:.c=.o)
 LIBFT= libft/libft.a
 
