@@ -1,57 +1,43 @@
+L'oiseau libre sautille
+Sur le dos du vent
+Et flotte en aval
+Jusqu'à ce que s'achève cet élan
+Et plonge ses ailes
+Dans les rayons orange du soleil
+Et ose défier le ciel.
 
-line --> /usr/bin/cat
-#include "pipex.h"
+Mais un oiseau qui piétine
+dans sa cage étroite
+peu rarement voir à travers
+ses barreaux de rage
+ses ailes sont entravées et
+ses pattes sont liées
+alors il ouvre sa gorge pour chanter.
 
-void	find_path(t_pipex *pipex, char **env)
-{
-	size_t	i;
-	int	find;
+L’oiseau en cage chante
+avec un trémolo de peur
+des choses inconnues
+mais espérées encore
+et sa mélodie se fait entendre
+sur la colline lointaine
+parce que l’oiseau en cage
+chante la liberté.
 
-	find = 0;
-	i = 1;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-		{
-			find = 1;
-			break;
-		}
-		i++;
-	}
-	if(find == 0)
-	{
-		write(2, "error : PATH not found", 22);
-		exit(0);
-	}
-	pipex->path = ft_split(env[i] + 5, ':');
-	i = 0;
-	while (pipex->path[i])
-	{
-		pipex->path[i] = strjoin_slash(pipex->path[i], pipex->arg[1]);
-		printf("%s\n", pipex->path[i]);
-		i++;
-	}
-}
+L’oiseau libre pense à une autre brise
+et aux alizés doux à travers les arbres soupirants
+et aux vers tout gras l’attendant sur une pelouse luisante à l’aube
+et il désigne le ciel comme sien.
 
-void	check_path(t_pipex *pipex, char **env)
-{
-	size_t	i;
-	(void)env;
-	int file = open("coucou.txt", O_WRONLY | O_CREAT, 0777);
-	dup2(file, 1);
+Mais un oiseau en cage s’assoit sur la tombe de ses rêves
+son ombre piaille d’un cri de cauchemar
+ses ailes sont coupées, ses pattes liées
+alors il ouvre sa gorge pour chanter.
 
-	i = 0;
-	while(pipex->path[i])
-	{
-		if(access(pipex->path[i], X_OK) == 0)
-		{
-			printf("\nline --> %s\n", pipex->path[i]);
-		//	pipex->c_path = pipex->path[i];
-			execve(pipex->path[i], pipex->arg, env);
-			return;
-		}
-		i++;
-	}
-}
+L’oiseau en cage chante
+avec un trémolo de peur
+des choses inconnues mais désirées encore
+et sa mélodie se fait entendre
+sur la colline lointaine parce que l’oiseau en cage
+chante la liberté.
 
-
+Maya Angelou
