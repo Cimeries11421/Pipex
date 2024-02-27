@@ -24,6 +24,9 @@ clean :
 sanitize:
 	make CFLAGS="-Wall -Wextra -Werror -g3 -fsanitize=address"
 
+debug:
+	make CFLAGS="-Wall -Wextra -Werror -g3"
+
 FORCE : 
  
 $(LIBFT) : FORCE #commande vide pour qu'il execute a chaque fois make

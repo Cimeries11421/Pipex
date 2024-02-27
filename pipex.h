@@ -12,15 +12,18 @@ typedef struct	s_pipex
 {
 	int		file1;
 	int		file2;
-	int		c_arg;
-	char	**arg;
+	int		fd[2];
+	int		entry;
+	int		last;
 	char	**path;
-	char	**cmd_path;
+
 }			t_pipex;
 
 char	*strjoin_slash(char *s1, char const *s2);
 size_t	strlen_space(const char *str);
 void	find_path(t_pipex *pipex, char **env, char *cmd);
-int		check_path(t_pipex *pipex, char **env);
+char	*check_path(t_pipex *pipex, char **env);
+void	ft_error(t_pipex *pipex, char *str);
+void	free_tab(char ***tab);
 
 #endif
