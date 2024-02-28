@@ -34,7 +34,7 @@ void	cmd_child(t_pipex *pipex, char *arg, char **env)
 {
 	char	*o_path;
 	char	**cmd;
-//	int	test = -1;
+//	int		test;
 
 	switch_fd(pipex);
 	if (close(pipex->fd[0]) == -1)
@@ -50,11 +50,14 @@ void	cmd_child(t_pipex *pipex, char *arg, char **env)
 	cmd = ft_split(arg, ' ');
 	if (execve(o_path, cmd, env) == -1)
 	{
+		close(pipex->entry); 
+		//close 0 et 1
+		//if(close(pipex->entry) == -1)
+		//	ft_error(pipex, "error close(file2)");
 		free(o_path);
-		free_tab(&cmd);
-		ft_error(pipex, "error execve");
+		cmd = free_tab(cmd);
+		ft_error(pipex,"error execve");
 	}
-	exit(0);
 }
 
 
@@ -67,11 +70,11 @@ void	create_childs(t_pipex *pipex, int ac, char **av, char **env)
 	while(y < (ac - 1))
 	{
 		if (pipe(pipex->fd) == -1)
-			ft_error(pipex, "error pipe");
+			ft_error(pipex,"error pipe");
 		id = fork();
 		if (id == -1)
 		{
-			ft_error(pipex, "error fork");
+			ft_error(pipex,"error fork");
 			close(pipex->fd[0]); //stop leak de fd
 			close(pipex->fd[1]);
 		}
@@ -79,6 +82,7 @@ void	create_childs(t_pipex *pipex, int ac, char **av, char **env)
 			pipex->last = 1;
 		if (id == 0)
 			cmd_child(pipex, av[y], env);
+		close(pipex->entry);// close l'ancien fd[0];
 		pipex->entry = pipex->fd[0];
 		close(pipex->fd[1]);
 		y++;
@@ -101,4 +105,12 @@ int		main(int ac, char **av, char **env)
 	if (pipex.file1 == -1 || pipex.file2 == -1)
 		ft_error(&pipex, "error open");
 	create_childs(&pipex, ac, av, env);
+	close(pipex.entry);
+	close(pipex.file1);
+	close(pipex.file2);
+	while(wait(NULL) > 0)
+	{
+		write(1, "enfant mort\n", 12);
+	}
+	write(1,"fini", 4);
 }

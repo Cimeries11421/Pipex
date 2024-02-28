@@ -31,21 +31,22 @@ void	find_path(t_pipex *pipex, char **env, char *cmd)
 	}
 }
 
-void	free_tab(char ***tab)
+char	**free_tab(char **tab)
 {
 	size_t	i;
 
 	i = 0;
 
 //	dprintf(2,"%s\n", **tab);
-	while ((*tab)[i])
+	while (tab[i])
 	{
 		//dprintf(2, "tab[%ld] = %s\n", i , (*tab)[i]);
-		free(*tab[i]);
+		free(tab[i]);
 		i++;
 	}
-	free(*tab);
-	*tab = NULL;
+	free(tab);
+	tab = NULL;
+	return (tab);
 //	dprintf(2,"%p\n", pipex->path);
 }
 
@@ -62,7 +63,7 @@ char	*check_path(t_pipex *pipex, char **env)
 		{
 	//		printf("\nline --> %s\n", pipex->path[i]);
 			str = ft_strdup(pipex->path[i]);
-			free_tab(&pipex->path);
+			pipex->path = free_tab(pipex->path);
 			dprintf(2,"%p---\n", pipex->path);
 			return (str);
 		}

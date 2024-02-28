@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/wait.h>
 
 typedef struct	s_pipex
 {
@@ -24,6 +25,6 @@ size_t	strlen_space(const char *str);
 void	find_path(t_pipex *pipex, char **env, char *cmd);
 char	*check_path(t_pipex *pipex, char **env);
 void	ft_error(t_pipex *pipex, char *str);
-void	free_tab(char ***tab);
+char	**free_tab(char **tab);
 
 #endif

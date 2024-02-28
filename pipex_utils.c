@@ -5,7 +5,7 @@ void	ft_error(t_pipex *pipex, char *str)
 	if (pipex->path != NULL)
 	{
 		dprintf(2,"boudin\n");
-		free_tab(&pipex->path);
+		pipex->path = free_tab(pipex->path);
 	}
 	 perror(str);
 	 exit(-1);
