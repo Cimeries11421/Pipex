@@ -64,7 +64,7 @@ char	*check_path(t_pipex *pipex, char **env)
 	//		printf("\nline --> %s\n", pipex->path[i]);
 			str = ft_strdup(pipex->path[i]);
 			pipex->path = free_tab(pipex->path);
-			dprintf(2,"%p---\n", pipex->path);
+	//		dprintf(2,"%p---\n", pipex->path);
 			return (str);
 		}
 		i++;
