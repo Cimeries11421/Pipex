@@ -1,41 +1,44 @@
 #include "pipex.h"
 
-void	ft_close(t_pipex *pipex)
+void	ft_close(t_pipex *pipex, int id)
 {
 	if (pipex->entry != -1)
 	{
 		if (close(pipex->entry) == -1)
-			ft_error(pipex, "error close(fd[0])", 0);
+			ft_error(pipex, "error close(fd[0])", 0, id);
 	}
 	if (id == 0)
 	{
 		if (close(pipex->fd[0]) == -1)
-			ft_error(pipex, "error close(fd[0])", 0);
+		{
+			ft_error(pipex, "error close(fd[0])", 0, id);
+		}
 		if (close(pipex->fd[1]) == -1)
-			ft_error(pipex, "error close(fd[1])", 0);
+			ft_error(pipex, "error close(fd[1])", 0, id);
 	}
 	if (pipex->file1 != -1)
 	{	
 		if (close(pipex->file1) == -1)
-			ft_error(pipex, "error close(file1)", 0);
+			ft_error(pipex, "error close(file1)", 0, id);
 	}
 	if (pipex->file2 != -1)
 	{
 		if (close(pipex->file2) == -1)
-			ft_error(pipex, "error close(file2)", 0);
+			ft_error(pipex, "error close(file2)", 0, id);
 	}
 }
 
-void	ft_error(t_pipex *pipex, char *str, int close)
+void	ft_error(t_pipex *pipex, char *str, int close, int id)
 {
 	if (close == 1)
-		ft_close(pipex);
+		ft_close(pipex, id);
 	if (pipex->path != NULL)
 	{
 		dprintf(2, "boudin\n");
 		pipex->path = free_tab(pipex->path);
 	}
 	perror(str);
+	write(2, "ntm", 3);
 	exit(-1);
 }
 

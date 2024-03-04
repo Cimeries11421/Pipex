@@ -18,14 +18,16 @@ typedef struct	s_pipex
 	int		last;
 	char	**path;
 	char	*o_path;
+	char	**cmd;
+	int		y;
 
 }			t_pipex;
 
 char	*strjoin_slash(char *s1, char const *s2);
 size_t	strlen_space(const char *str);
-void	ft_error(t_pipex *pipex, char *str, int close);
+void	ft_error(t_pipex *pipex, char *str, int close, int id);
 char	**free_tab(char **tab);
-void	ft_close(t_pipex *pipex);
+void	ft_close(t_pipex *pipex, int fd);
 void	create_children(t_pipex *pipex, int ac, char **av, char **env);
 void	analyse_path(t_pipex *pipex, char *arg, char **env);
 

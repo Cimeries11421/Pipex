@@ -80,7 +80,7 @@ static char		*clean_arg(char *str)
 	i = 0;
 	while (str[i] != ' ')
 		i++;
-	str2 = malloc(i * sizeof(char));
+	str2 = malloc((i + 1) * sizeof(char));
 	i = 0;
 	while (str[i] != ' ')
 	{
@@ -99,7 +99,6 @@ static char		*clean_arg(char *str)
 
 void	analyse_path(t_pipex *pipex, char *arg, char **env)
 {
-
 	if (ft_strchr(arg, '/'))
 	{
 		dprintf(2, "coucou\n");
@@ -116,7 +115,7 @@ void	analyse_path(t_pipex *pipex, char *arg, char **env)
 		write(2, "Command not found: ", 19); //probleme affichage
 		write(2, arg, ft_strlen(arg));
 		write(2, "\n", 1);
-	}
+	} 
 }
 
 
