@@ -7,19 +7,27 @@ void	ft_close(t_pipex *pipex)
 		if (close(pipex->entry) == -1)
 			ft_error(pipex, "error close(fd[0])", 0);
 	}
-	if (close(pipex->fd[0]) == -1)
-		ft_error(pipex, "error close(fd[0])", 0);
-	if (close(pipex->fd[1]) == -1)
-		ft_error(pipex, "error close(fd[1])", 0);
-	if (close(pipex->file1) == -1)
-		ft_error(pipex, "error close(file1)", 0);
-	if (close(pipex->file2) == -1)
-		ft_error(pipex, "error close(file2)", 0);
+	if (id == 0)
+	{
+		if (close(pipex->fd[0]) == -1)
+			ft_error(pipex, "error close(fd[0])", 0);
+		if (close(pipex->fd[1]) == -1)
+			ft_error(pipex, "error close(fd[1])", 0);
+	}
+	if (pipex->file1 != -1)
+	{	
+		if (close(pipex->file1) == -1)
+			ft_error(pipex, "error close(file1)", 0);
+	}
+	if (pipex->file2 != -1)
+	{
+		if (close(pipex->file2) == -1)
+			ft_error(pipex, "error close(file2)", 0);
+	}
 }
 
 void	ft_error(t_pipex *pipex, char *str, int close)
 {
-	
 	if (close == 1)
 		ft_close(pipex);
 	if (pipex->path != NULL)
@@ -27,8 +35,8 @@ void	ft_error(t_pipex *pipex, char *str, int close)
 		dprintf(2, "boudin\n");
 		pipex->path = free_tab(pipex->path);
 	}
-	 perror(str);
-	 exit(-1);
+	perror(str);
+	exit(-1);
 }
 
 size_t	strlen_space(const char *str)
