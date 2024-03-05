@@ -60,7 +60,7 @@ char	*strjoin_slash(char *s1, char const *s2)
 	char	*tmp;
 
 	i = 0;
-	len = ft_strlen(s1) + strlen_space(s2);
+	len = ft_strlen(s1) + ft_strlen(s2);
 	s3 = malloc((len + 2) * sizeof(char)); // free 
 	if (!s3)
 		return (NULL);
@@ -69,7 +69,7 @@ char	*strjoin_slash(char *s1, char const *s2)
 		s3[i++] = *tmp++;
 	s3[i] = '/';
 	i++;
-	while (*s2 && *s2 != ' ')
+	while (*s2)
 		s3[i++] = *s2++;
 	s3[i] = '\0';
 	free(s1);

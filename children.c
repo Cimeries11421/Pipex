@@ -33,33 +33,23 @@ static void	switch_fd(t_pipex *pipex, int id)
 	}	
 }
 
-static void	cmd_child(t_pipex *pipex, char *arg, char **env, int id)
+static void	cmd_child(t_pipex *pipex, char **env, int id)
 {
 
 	switch_fd(pipex, id);
 	ft_close(pipex, id);
 	if (pipex->entry != -1)
-		close(pipex->entry);
-	cmd = ft_split(arg, ' '); //proteger split
-	if (cmd == NULL)
-	{
-		if (pipex->o_path != NULL)
-			free(pipex->o_path);
-		if (close(0) == -1)
-			ft_error(pipex, "error close(0)", 0, id);
-		if (close(1) == -1)
-			ft_error(pipex, "error close(1)", 0, id);
-	}
+		close(pipex->entry); //proteger close 
 	if (pipex->o_path != NULL)
 	{
-		if (execve(pipex->o_path, cmd, env) == -1)
+		if (execve(pipex->o_path, pipex->cmd, env) == -1)
 		{
 			if (close(0) == -1)
 				ft_error(pipex, "error close(0)", 0, id);
 			if (close(1) == -1)
 				ft_error(pipex, "error close(1)", 0, id);
 			free(pipex->o_path);
-			cmd = free_tab(cmd);
+			pipex->cmd = free_tab(pipex->cmd);
 			write(2, "Command not found:\n", 19);
 		}
 	}
@@ -86,7 +76,7 @@ void	create_children(t_pipex *pipex, int ac, char **av, char **env)
 			ft_error(pipex,"error fork", 1, id);
 		}
 		if (id == 0)
-			cmd_child(pipex, av[pipex->y], env, id);
+			cmd_child(pipex, env, id);
 		if (id != 0 && pipex->o_path != NULL)
 			free(pipex->o_path);
 		if (pipex->entry != -1)

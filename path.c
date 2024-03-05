@@ -19,7 +19,7 @@ char	**free_tab(char **tab)
 //	dprintf(2,"%p\n", pipex->path);
 }
 
-static void	find_path(t_pipex *pipex, char **env, char *cmd)
+static void	find_path(t_pipex *pipex, char **env)
 {
 	size_t	i;
 	int		find;
@@ -44,8 +44,8 @@ static void	find_path(t_pipex *pipex, char **env, char *cmd)
 	i = 0;
 	while (pipex->path[i])
 	{
-		pipex->path[i] = strjoin_slash(pipex->path[i], cmd);
-	//	dprintf(2,"%s\n", pipex->path[i]);
+		pipex->path[i] = strjoin_slash(pipex->path[i], pipex->cmd[0]);
+		//dprintf(2,"%s\n", pipex->path[i]);
 		i++;
 	}
 }
@@ -71,7 +71,7 @@ static char	*check_path(t_pipex *pipex, char **env)
 	return (NULL); //error si trouve pas le chemin
 }
 
-static char		*clean_arg(char *str)
+/*static char		*clean_arg(char *str)
 {
 	size_t	i;
 	char	*str2;
@@ -95,30 +95,55 @@ static char		*clean_arg(char *str)
 		return (NULL);
 	}
 	return (str2);
+}*/
+
+static char	*check(char *str)
+{
+	char *str2;
+
+	str2 = ft_strdup(str);	
+	if (access(str2, X_OK) != 0)
+	{
+		free(str2);
+		return (NULL);
+	}
+	return (str2);
 }
 
 void	analyse_path(t_pipex *pipex, char *arg, char **env)
 {
-	if (ft_strchr(arg, '/'))
+	pipex->cmd = ft_split(arg, ' '); //proteger split
+	int i = 0;
+	while (pipex->cmd[i])
+	{
+		dprintf(2, "%s\n", pipex->cmd[i]);
+		i++;
+	}
+	if (pipex->cmd == NULL)
+	{
+		write(2, "ft_split crash\n", 16);
+		exit(-1);
+	}
+	if (ft_strchr(pipex->cmd[0], '/'))
 	{
 		dprintf(2, "coucou\n");
-		pipex->o_path = clean_arg(arg);
+		pipex->o_path = check(pipex->cmd[0]);
 	}
 	else
 	{	
-		find_path(pipex, env, arg);
+		find_path(pipex, env);
 		pipex->o_path = check_path(pipex, env);
 	}
+	pipex->cmd = free_tab(pipex->cmd);
 	dprintf(2, "o_path = %p\n", pipex->o_path);
+	dprintf(2, "o_path = %s\n", pipex->o_path);
 	if (!pipex->o_path)
 	{
 		write(2, "Command not found: ", 19); //probleme affichage
-		write(2, arg, ft_strlen(arg));
+		write(2, arg, ft_strlen(arg)); //mettre cmd[0] ??? 
 		write(2, "\n", 1);
 	} 
 }
-
-
 
 
 
