@@ -124,20 +124,19 @@ void	analyse_path(t_pipex *pipex, char *arg, char **env)
 		write(2, "ft_split crash\n", 16);
 		exit(-1);
 	}
-	if (ft_strchr(pipex->cmd[0], '/'))
+	if (pipex->cmd[0] && ft_strchr(pipex->cmd[0], '/'))
 	{
 		dprintf(2, "coucou\n");
 		pipex->o_path = check(pipex->cmd[0]);
 	}
-	else
+	else if (pipex->cmd[0])
 	{	
 		find_path(pipex, env);
 		pipex->o_path = check_path(pipex, env);
 	}
-	pipex->cmd = free_tab(pipex->cmd);
 	dprintf(2, "o_path = %p\n", pipex->o_path);
 	dprintf(2, "o_path = %s\n", pipex->o_path);
-	if (!pipex->o_path)
+	if (!pipex->o_path || !pipex->cmd[0])
 	{
 		write(2, "Command not found: ", 19); //probleme affichage
 		write(2, arg, ft_strlen(arg)); //mettre cmd[0] ??? 

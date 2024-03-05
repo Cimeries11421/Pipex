@@ -40,6 +40,8 @@ static void	cmd_child(t_pipex *pipex, char **env, int id)
 	ft_close(pipex, id);
 	if (pipex->entry != -1)
 		close(pipex->entry); //proteger close 
+	
+	dprintf(2, "child : o_path = %s\n", pipex->o_path);
 	if (pipex->o_path != NULL)
 	{
 		if (execve(pipex->o_path, pipex->cmd, env) == -1)
@@ -79,6 +81,7 @@ void	create_children(t_pipex *pipex, int ac, char **av, char **env)
 			cmd_child(pipex, env, id);
 		if (id != 0 && pipex->o_path != NULL)
 			free(pipex->o_path);
+		pipex->cmd = free_tab(pipex->cmd);
 		if (pipex->entry != -1)
 			close(pipex->entry);// close l'ancien fd[0];
 		pipex->entry = pipex->fd[0];
