@@ -1,16 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   children.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebriere <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/05 18:58:24 by ebriere           #+#    #+#             */
+/*   Updated: 2024/03/05 18:58:41 by ebriere          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
-
-/*void	first_child(t_pipex *pipex)
-{
-	if (close(pipex->file1) == -1)
-		ft_error("error close(file1)");
-}*/
-
-
 
 static void	switch_fd(t_pipex *pipex, int id)
 {
-	dprintf(2, "fd = %d\n", pipex->fd[0]);
 	if (pipex->entry == -1)
 	{
 		if (dup2(pipex->file1, 0) == -1)
@@ -27,10 +30,10 @@ static void	switch_fd(t_pipex *pipex, int id)
 			ft_error(pipex, "error dup2(file2)", 1, id);
 	}
 	else
-	{ 
+	{
 		if (dup2(pipex->fd[1], 1) == -1)
 			ft_error(pipex, "error dup2(file1)", 1, id);
-	}	
+	}
 }
 
 static void	cmd_child(t_pipex *pipex, char **env, int id)
@@ -51,10 +54,10 @@ static void	cmd_child(t_pipex *pipex, char **env, int id)
 			if (close(1) == -1)
 				ft_error(pipex, "error close(1)", 0, id);
 			free(pipex->o_path);
-			pipex->cmd = free_tab(pipex->cmd);
-			write(2, "Command not found:\n", 19);
+			perror("error execve");
 		}
 	}
+	pipex->cmd = free_tab(pipex->cmd);
 	exit(-1);
 }
 
