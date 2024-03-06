@@ -16,8 +16,9 @@ void	ft_close(t_pipex *pipex, int id)
 {
 	if (pipex->entry != -1)
 	{
+		dprintf(2, "COUCOU\n");
 		if (close(pipex->entry) == -1)
-			ft_error(pipex, "error close(fd[0])", 0, id);
+			ft_error(pipex, "error close(pipex->entry2)", 0, id);
 	}
 	if (id == 0)
 	{

@@ -39,6 +39,7 @@ int		main(int ac, char **av, char **env)
 		perror(av[1]);
 		pipex.file1 = open("/dev/null", O_RDONLY, 0666); //permission ?
 		pipex.y++;
+		//pipex.entry = pipex.file1; // changement
 	}
 	if (pipex.file2 == -1)
 	{

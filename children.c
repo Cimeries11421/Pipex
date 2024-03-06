@@ -38,25 +38,29 @@ static void	switch_fd(t_pipex *pipex, int id)
 
 static void	cmd_child(t_pipex *pipex, char **env, int id)
 {
+
+	dprintf(2, "pipex->entry = %d\n", pipex->entry);
 	switch_fd(pipex, id);
 	ft_close(pipex, id);
-	if (pipex->entry != -1)
+	/*if (pipex->entry != -1)
 	{
-		if (close(pipex->entry) == -1)
-			ft_error(pipex, "error close(pipex->entry)", 0, id);
-	}
+		dprintf(2, "coucou\n");
+		close(pipex->entry);
+			//ft_error(pipex, "error close(pipex->entry)", 0, id);
+	}*/
 	if (pipex->o_path != NULL)
 	{
 		if (execve(pipex->o_path, pipex->cmd, env) == -1)
 		{
-			if (close(0) == -1)
-				ft_error(pipex, "error close(0)", 0, id);
-			if (close(1) == -1)
-				ft_error(pipex, "error close(1)", 0, id);
 			free(pipex->o_path);
 			perror("error execve");
 		}
 	}
+	if (close(0) == -1)
+		ft_error(pipex, "error close(0)", 0, id);
+	if (close(1) == -1)
+		ft_error(pipex, "error close(1)", 0, id);
+
 	pipex->cmd = free_tab(pipex->cmd);
 	exit(-1);
 }
@@ -81,9 +85,13 @@ void	create_children(t_pipex *pipex, int ac, char **av, char **env)
 		if (id != 0 && pipex->o_path != NULL)
 			free(pipex->o_path);
 		pipex->cmd = free_tab(pipex->cmd);
-		if (pipex->entry != -1 && close(pipex->entry) == -1)
-			ft_error(pipex, "error close(pipex->entry)", 0, id);
+		if (pipex->entry != -1)
+		{
+			if (close(pipex->entry) == -1)
+				ft_error(pipex, "error close(pipex->entry)", 0, id);
+		}
 		pipex->entry = pipex->fd[0];
+		dprintf(2, "au revoir\n");
 		if (close(pipex->fd[1]) == -1)
 			ft_error(pipex, "error close(fd[1])", 0, id);
 		pipex->y++;
